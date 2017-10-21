@@ -61,6 +61,12 @@ class NaturalLanguageClassifierV1(WatsonDeveloperCloudService):
                             url='/v1/classifiers/{0}/classify'.format(
                                 classifier_id), accept_json=True,
                             json={'text': text})
+        
+    def batch_classify(self, classifier_id, textList):
+        classifier_id = self.unpack_id(classifier_id, 'classifier_id')
+        textList = [{'text': text} for text in textList]
+        return self.request(method='POST', url='/v1/classifiers/{0}/batch_classify'.format(classifier_id), accept_json=True,
+                            json=json.loads(json.dumps(textList)))
 
     def remove(self, classifier_id):
         classifier_id = self.unpack_id(classifier_id, 'classifier_id')
